@@ -1,31 +1,19 @@
-import React, {useEffect, useLayoutEffect, useState} from "react";
+import React, { useContext } from 'react';
 import {Row} from "reactstrap";
 import MovieCard from "./MovieCard";
-import Movie from "../../types/Movie";
+import WatchListContext from '../../contexts/WatchListContext';
 const WatchListComponent: React.FC = () => {
-    const [watchList, setWatchList] = useState<Array<Movie>>([])
-
-    useLayoutEffect(() => {
-        const sessionList = localStorage.getItem('watchList');
-        if (sessionList !== null) {
-            setWatchList(JSON.parse(sessionList))
-        } else {
-            localStorage.setItem('watchList', JSON.stringify(watchList))
-        }
-    }, [])
-    useEffect(() => {
-        localStorage.setItem('watchList', JSON.stringify(watchList));
-    }, [watchList]);
+    const watchList = useContext(WatchListContext);
 
     return (
         <React.Fragment>
             <Row xs={4}>
-                {watchList.map((movie) => (
+                {watchList.movies.map((movie) => (
                     <MovieCard
                         buttonText="Remove"
                         key={movie.id}
                         movie={movie}
-                        onSelect={(movie) => setWatchList(watchList.filter((element) => element.id !== movie.id))}/>
+                        onSelect={(movie) => watchList.removeMovie(movie)}/>
                 ))}
             </Row>
         </React.Fragment>

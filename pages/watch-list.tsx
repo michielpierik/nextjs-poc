@@ -1,8 +1,12 @@
-import {NextPage} from "next";
 import {Col, Container} from "reactstrap";
-import WatchListComponent from "../components/Tmbdb/WatchList";
 import Link from "next/link";
-const WatchList: NextPage = () => {
+import dynamic from 'next/dynamic';
+import { NextPageWithLayout } from './_app';
+import { ReactElement } from 'react';
+import MainLayout from '../layouts/MainLayout';
+
+const WatchListComponent = dynamic(() => import('../components/Tmbdb/WatchList'))
+const WatchList: NextPageWithLayout = () => {
     return (
         <Container>
             <Col xs={2}><Link href="/">Home</Link></Col>
@@ -10,5 +14,7 @@ const WatchList: NextPage = () => {
         </Container>
     )
 }
+
+WatchList.getLayout = (page: ReactElement) => <MainLayout>{page}</MainLayout>
 
 export default WatchList
