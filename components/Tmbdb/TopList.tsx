@@ -36,7 +36,13 @@ const TopList: React.FC = () => {
                 {data.map((pages) => {
                     return pages.results.map((movie: Movie) => (
                         <MovieCard
-                            onSelect={(movie) => setWatchList(watchList.concat([movie]))}
+                            onSelect={(movie) => {
+                                if (watchList.find((element) => element.id === movie.id) === undefined) {
+                                    setWatchList(watchList.concat([movie]))
+                                } else {
+                                    alert('Movie already exists');
+                                }
+                            }}
                             key={movie.id}
                             movie={movie}/>
                     ))
